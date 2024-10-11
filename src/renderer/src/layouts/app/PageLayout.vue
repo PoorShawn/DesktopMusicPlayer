@@ -3,6 +3,10 @@
     <RootPageLayout v-if="currentRouteName === 'RootPage'" />
     <DefaultPageLayout v-else />
 
+    <!-- test -->
+    <router-link to="/">/</router-link>
+    <br>
+    <router-link to="/home">/home</router-link>
 </template>
 
 <script setup lang="ts">
@@ -13,7 +17,10 @@ const RootPageLayout = defineAsyncComponent(() => import('./pageLayout/RootPageL
 const DefaultPageLayout = defineAsyncComponent(() => import('./pageLayout/DefaultPageLayout.vue'));
 
 const route = useRoute();
-const currentRouteName = computed(() => route.name)
+const currentRouteName = computed(() => route.name);
+
+// test
+console.log('path: ', route.fullPath);
 
 </script>
 

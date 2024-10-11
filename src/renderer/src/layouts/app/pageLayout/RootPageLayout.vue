@@ -5,6 +5,7 @@
     <div class="container main-view">
         <RouterView />
     </div>
+
 </template>
 
 <script setup lang="ts">

@@ -4,7 +4,12 @@ const routes = [
     {
         path: '/',
         name: 'RootPage',
-        component: () => import('../pages/RootPage.vue')
+        component: () => import('@renderer/pages/RootPage.vue')
+    },
+    {
+        path: '/home',
+        name: 'HomePage',
+        component: () => import('@renderer/pages/home/MainPage.vue')
     }
 ]
 
