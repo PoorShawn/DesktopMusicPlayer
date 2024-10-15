@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer} from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import WindowManager from './windowManager'
+import Store from 'electron-store'
 
 app.whenReady().then(() => {
   // Set app user model id for windows
@@ -41,6 +42,9 @@ app.whenReady().then(() => {
 
   ipcMain.on('add-tab', (_, path) => {
     const view3 = windowManager.createWebContentView('http://localhost:5173/#'+path, { x: 450, y: 0, width: 450, height: 670 });
+    const store = new Store()
+    store.set('tab', view3)
+    console.log('set tab: ', view3)
     windowManager.showWebContentView(view3)
   })
 

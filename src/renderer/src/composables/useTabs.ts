@@ -3,6 +3,5 @@ export const addTab = () => {
 }
 
 export const hideTab = () => {
-  console.log('hhhhideTab')
   window.electronAPI.hideTab()
 }

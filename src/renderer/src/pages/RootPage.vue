@@ -3,12 +3,13 @@
   <TheAuthentication v-else />
 
   <!-- test -->
-  <button @click="toggleView">Toggle RootPage</button>
+  <!--  <button @click="toggleView">Toggle RootPage</button>-->
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, ref, watch } from 'vue'
-import { hideTab } from "@renderer/composables/useTabs";
+import { computed, defineAsyncComponent, watch } from 'vue'
+import useProfileStore from '@renderer/store/profile'
+import { hideTab } from '@renderer/composables/useTabs'
 
 const TheBrowsersTabs = defineAsyncComponent(
   () => import('@renderer/layouts/baseWindow/TheBrowsersTabs.vue')
@@ -17,12 +18,15 @@ const TheAuthentication = defineAsyncComponent(
   () => import('@renderer/layouts/baseWindow/TheAuthentication.vue')
 )
 
-const isRenderBrowserTabs = ref(false)
+const profileStore = useProfileStore()
+const isRenderBrowserTabs = computed(() => {
+  return profileStore.isAnonymous || profileStore.id
+})
 
 //test
-const toggleView = () => {
-  isRenderBrowserTabs.value = !isRenderBrowserTabs.value
-}
+// const toggleView = () => {
+//   isRenderBrowserTabs = !isRenderBrowserTabs.value
+// }
 watch(isRenderBrowserTabs, (isRenderBrowserTabs) => {
   if (!isRenderBrowserTabs) {
     hideTab()

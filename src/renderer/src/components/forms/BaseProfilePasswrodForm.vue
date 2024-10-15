@@ -1,12 +1,7 @@
 <template>
-    <h2>
-        BaseProfilePasswordForm
-    </h2>
+  <h2>BaseProfilePasswordForm</h2>
 </template>
-  
-<script setup lang="ts">
 
-</script>
-  
-<style lang="scss">
-</style>
+<script setup lang="ts"></script>
+
+<style lang="scss"></style>

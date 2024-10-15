@@ -1,12 +1,7 @@
 <template>
-    <h2>
-        BaseProfileCreateForm
-    </h2>
+  <h2>BaseProfileCreateForm</h2>
 </template>
-  
-<script setup lang="ts">
 
-</script>
-  
-<style lang="scss">
-</style>
+<script setup lang="ts"></script>
+
+<style lang="scss"></style>
