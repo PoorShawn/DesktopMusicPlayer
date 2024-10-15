@@ -16,7 +16,7 @@ app.whenReady().then(() => {
   })
 
   // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  //ipcMain.on('ping', () => console.log('pong'));
 
   const windowManager = WindowManager.getInstance();
   windowManager.createMainWindow({
@@ -27,16 +27,28 @@ app.whenReady().then(() => {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: true,
+      contextIsolation: true
     }
   })
 
-   // 创建几个 WebContentsView 子窗口
-  const view1 = windowManager.createWebContentView('https://bilibili.com', { x: 0, y: 335, width: 900, height: 335 });
-  const view2 = windowManager.createWebContentView('http://localhost:5173/#home', { x: 450, y: 0, width: 450, height: 670 });
+  // 创建几个 WebContentsView 子窗口
+  //const view1 = windowManager.createWebContentView('https://bilibili.com', { x: 0, y: 335, width: 900, height: 335 });
+  //const view2 = windowManager.createWebContentView('http://localhost:5173/#home', { x: 450, y: 0, width: 450, height: 670 });
 
-  windowManager.showWebContentView(view2);
-  windowManager.showWebContentView(view1);
+  //windowManager.showWebContentView(view2);
+  //windowManager.showWebContentView(view1);
+
+  ipcMain.on('add-tab', (_, path) => {
+    const view3 = windowManager.createWebContentView('http://localhost:5173/#'+path, { x: 450, y: 0, width: 450, height: 670 });
+    windowManager.showWebContentView(view3)
+  })
+
+  ipcMain.on('hide-tab', () => {
+    //windowManager.closeWebContentView(view)
+    console.log('hide-tab')
+    windowManager.showMainWindow()
+  })
 
   // app.on('activate', function () {
   //   // On macOS it's common to re-create a window in the app when the

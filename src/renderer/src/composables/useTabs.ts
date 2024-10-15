@@ -1,2 +1,8 @@
-import { ipcRenderer } from "electron";
-import { generateKey } from "@renderer/utils/utils";
+export const addTab = () => {
+  window.electronAPI.addTab('home')
+}
+
+export const hideTab = () => {
+  console.log('hhhhideTab')
+  window.electronAPI.hideTab()
+}
