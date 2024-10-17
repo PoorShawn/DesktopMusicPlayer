@@ -1,9 +1,9 @@
 import { app, ipcMain } from 'electron'
 import { join } from 'path'
-import { electronApp, optimizer} from '@electron-toolkit/utils'
+import { electronApp, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import WindowManager from './windowManager'
-import Store from 'electron-store'
+import { setAnonymous, setTab, getElectronStore } from './store/store'
 
 app.whenReady().then(() => {
   // Set app user model id for windows
@@ -19,7 +19,7 @@ app.whenReady().then(() => {
   // IPC test
   //ipcMain.on('ping', () => console.log('pong'));
 
-  const windowManager = WindowManager.getInstance();
+  const windowManager = WindowManager.getInstance()
   windowManager.createMainWindow({
     width: 900,
     height: 670,
@@ -41,17 +41,34 @@ app.whenReady().then(() => {
   //windowManager.showWebContentView(view1);
 
   ipcMain.on('add-tab', (_, path) => {
-    const view3 = windowManager.createWebContentView('http://localhost:5173/#'+path, { x: 450, y: 0, width: 450, height: 670 });
-    const store = new Store()
-    store.set('tab', view3)
-    console.log('set tab: ', view3)
+    const view3 = windowManager.createWebContentView('http://localhost:5173/#' + path, {
+      x: 450,
+      y: 0,
+      width: 450,
+      height: 670
+    })
+    setTab(view3)
     windowManager.showWebContentView(view3)
   })
 
   ipcMain.on('hide-tab', () => {
     //windowManager.closeWebContentView(view)
-    console.log('hide-tab')
+    windowManager.hideAllWebContentView()
     windowManager.showMainWindow()
+
+    setAnonymous(false)
+    // 通知主程序
+    windowManager.ipcWindow('update-pinia-store', getElectronStore())
+  })
+
+  ipcMain.on('set-anonymous', (_, isAnonymous) => {
+    setAnonymous(isAnonymous)
+    // 通知主程序
+    windowManager.ipcWindow('update-pinia-store', getElectronStore())
+  })
+
+  ipcMain.handle('get-electron-store', () => {
+    return getElectronStore()
   })
 
   // app.on('activate', function () {

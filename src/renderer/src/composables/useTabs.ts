@@ -1,7 +1,7 @@
 export const addTab = () => {
-  window.electronAPI.addTab('home')
+  window.api.addTab('home')
 }
 
 export const hideTab = () => {
-  window.electronAPI.hideTab()
+  window.api.hideTab()
 }

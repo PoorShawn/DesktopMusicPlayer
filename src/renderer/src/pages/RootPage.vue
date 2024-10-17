@@ -23,10 +23,6 @@ const isRenderBrowserTabs = computed(() => {
   return profileStore.isAnonymous || profileStore.id
 })
 
-//test
-// const toggleView = () => {
-//   isRenderBrowserTabs = !isRenderBrowserTabs.value
-// }
 watch(isRenderBrowserTabs, (isRenderBrowserTabs) => {
   if (!isRenderBrowserTabs) {
     hideTab()

@@ -7,9 +7,12 @@ import { contextBridge, ipcRenderer } from 'electron/renderer'
 //const api = {}
 
 // contextBridge.exposeInMainWorld('electron', electronAPI)
-contextBridge.exposeInMainWorld('electronAPI', {
+contextBridge.exposeInMainWorld('api', {
   addTab: (path: string) => ipcRenderer.send('add-tab', path),
-  hideTab: () => ipcRenderer.send('hide-tab')
+  hideTab: () => ipcRenderer.send('hide-tab'),
+  setAnonymous: (isAnonymous: boolean) => ipcRenderer.send('set-anonymous', isAnonymous),
+  getElectronStore: () => ipcRenderer.invoke('get-electron-store'),
+  updatePiniaStore: (callback) => ipcRenderer.on('update-pinia-store', (_event, value: object) => callback(value))
 })
 
 // Use `contextBridge` APIs to expose Electron APIs to

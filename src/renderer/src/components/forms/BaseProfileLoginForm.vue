@@ -1,15 +1,17 @@
 <template>
   <h2>BaseProfileLoginForm</h2>
-  <button @click="setAnonymous">set Anonymous</button>
+  <button @click="handleClick">set Anonymous</button>
   <br /><br />
 </template>
 
 <script setup lang="ts">
 import useProfileStore from '@renderer/store/profile'
+import { setAnonymous } from '@renderer/composables/useElectronStore'
 
 const profileStore = useProfileStore()
-const setAnonymous = () => {
-  profileStore.isAnonymous = true
+const handleClick = () => {
+  setAnonymous(true)
+  profileStore.setIsAnonymous(true)
 }
 </script>
 

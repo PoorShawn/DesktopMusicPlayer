@@ -5,7 +5,7 @@ import { v4 as generateKey } from 'uuid'
 
 export default class WindowManager {
   private static instance: WindowManager
-  private mainWindow: BrowserWindow | null = null
+  mainWindow: BrowserWindow | null = null
   private childWindows: Map<string, WebContentsView> = new Map()
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -20,6 +20,8 @@ export default class WindowManager {
 
   createMainWindow(options: Electron.BrowserWindowConstructorOptions): number {
     this.mainWindow = new BrowserWindow(options)
+    this.mainWindow.webContents.openDevTools()
+
     this.mainWindow.on('closed', () => {
       this.mainWindow = null
     })
@@ -42,11 +44,17 @@ export default class WindowManager {
     return this.mainWindow!.id
   }
 
+  ipcWindow(channel, value) {
+    if (this.childWindows) {
+      this.iterateWebContentView((childWindow) => {
+        childWindow?.webContents.send(channel, value)
+      })
+    }
+    this.mainWindow?.webContents.send(channel, value)
+  }
+
   showMainWindow(): void {
     this.mainWindow?.show()
-
-    // test
-    this.hideAllWebContentView()
   }
 
   getMainWindow(): BrowserWindow | null {
@@ -59,7 +67,7 @@ export default class WindowManager {
     }
   }
 
-  iterateWebContentView(callback: (view: WebContentsView, winId: string) => void): void {
+  iterateWebContentView(callback: (view?: WebContentsView, winId?: string) => void): void {
     this.childWindows.forEach((view, winId) => callback(view, winId))
   }
 
@@ -76,7 +84,7 @@ export default class WindowManager {
     this.mainWindow?.contentView.addChildView(view)
     this.childWindows.set(winId, view)
 
-    view.webContents.openDevTools();
+    view.webContents.openDevTools()
     // view.setVisible(true);
 
     this.mainWindow?.on('resize', () => {
@@ -100,7 +108,9 @@ export default class WindowManager {
     if (view) {
       // Hide all WebContentViews
       this.iterateWebContentView((_, winId) => {
-        this.hideWebContentView(winId)
+        if (winId) {
+          this.hideWebContentView(winId)
+        }
       })
 
       // Show the specific WebContentView
@@ -125,7 +135,9 @@ export default class WindowManager {
 
   hideAllWebContentView() {
     this.iterateWebContentView((_, winId) => {
-      this.hideWebContentView(winId)
+      if (winId) {
+        this.hideWebContentView(winId)
+      }
     })
   }
 }
