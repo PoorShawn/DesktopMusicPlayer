@@ -18,6 +18,22 @@ export default class WindowManager {
     return WindowManager.instance
   }
 
+  getAllWindows(): (number | string)[] {
+    const windows: (number | string)[] = []
+
+    // 如果存在主窗口，则添加其ID
+    if (this.mainWindow) {
+      windows.push(this.mainWindow.id)
+    }
+
+    // 添加所有子窗口的ID
+    this.childWindows.forEach((_, winId) => {
+      windows.push(winId)
+    })
+
+    return windows
+  }
+
   createMainWindow(options: Electron.BrowserWindowConstructorOptions): number {
     this.mainWindow = new BrowserWindow(options)
     this.mainWindow.webContents.openDevTools()
@@ -44,7 +60,7 @@ export default class WindowManager {
     return this.mainWindow!.id
   }
 
-  ipcWindow(channel, value) {
+  ipcWindow(channel: string, value) {
     if (this.childWindows) {
       this.iterateWebContentView((childWindow) => {
         childWindow?.webContents.send(channel, value)

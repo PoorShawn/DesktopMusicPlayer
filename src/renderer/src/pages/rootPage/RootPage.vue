@@ -1,9 +1,6 @@
 <template>
   <TheBrowsersTabs v-if="isRenderBrowserTabs" />
   <TheAuthentication v-else />
-
-  <!-- test -->
-  <!--  <button @click="toggleView">Toggle RootPage</button>-->
 </template>
 
 <script setup lang="ts">

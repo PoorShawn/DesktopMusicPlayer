@@ -5,12 +5,16 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import PageLayout from '@renderer/layouts/app/PageLayout.vue'
-import { syncWithElectronStore, updatePiniaStore } from '@renderer/composables/useElectronStore'
-updatePiniaStore()
+import { syncWithElectronStore, updatePiniaStore } from '@renderer/composables/useStore'
+
 onMounted(() => {
-  syncWithElectronStore()
   updatePiniaStore()
+  syncWithElectronStore()
 })
 </script>
 
-<style lang="css"></style>
+<style lang="css">
+body {
+  margin: 0;
+}
+</style>

@@ -15,6 +15,13 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: `@import "src/renderer/src/assets/styles/common.scss";`
+    //     }
+    //   }
+    // },
     plugins: [vue()]
   }
 })

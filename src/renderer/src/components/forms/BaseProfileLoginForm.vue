@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import useProfileStore from '@renderer/store/profile'
-import { setAnonymous } from '@renderer/composables/useElectronStore'
+import { setAnonymous } from '@renderer/composables/useStore'
 
 const profileStore = useProfileStore()
 const handleClick = () => {

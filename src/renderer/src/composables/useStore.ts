@@ -1,11 +1,7 @@
 import useProfileStore from '@renderer/store/profile'
-import { getElectronStore } from '@renderer/composables/useElectronStore'
 
 export const setAnonymous = (isAnonymous: boolean) => {
-  if (isAnonymous) {
-    window.api.setAnonymous(isAnonymous)
-    console.log('setAnonymous-preload')
-  }
+  window.api.setAnonymous(isAnonymous)
 }
 
 export const getElectronStore = () => {

@@ -4,9 +4,9 @@
   <BaseProfileCreateForm v-else-if="isSignUp" />
 
   <!-- test -->
-  <button @click="toggoleToLogin">login</button>
-  <button @click="toggoleToPasswordReset">Reset Password</button>
-  <button @click="toggoleToSignUp">sign up</button>
+  <button @click="toggleToLogin">login</button>
+  <button @click="toggleToPasswordReset">Reset Password</button>
+  <button @click="toggleToSignUp">sign up</button>
   <br />
   <br />
 </template>
@@ -23,9 +23,9 @@ const isPasswordReset = computed(() => activeForm.value === 'passwordReset')
 const isSignUp = computed(() => activeForm.value === 'signUp')
 
 // test
-const toggoleToLogin = () => (activeForm.value = 'login')
-const toggoleToPasswordReset = () => (activeForm.value = 'passwordReset')
-const toggoleToSignUp = () => (activeForm.value = 'signUp')
+const toggleToLogin = () => (activeForm.value = 'login')
+const toggleToPasswordReset = () => (activeForm.value = 'passwordReset')
+const toggleToSignUp = () => (activeForm.value = 'signUp')
 </script>
 
 <style lang="scss"></style>

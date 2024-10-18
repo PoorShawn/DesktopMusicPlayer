@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import SidebarPanel from '@renderer/layouts/panels/SidebarPanel.vue'
+import SidebarPanel from '@renderer/components/panels/SidebarPanel.vue'
 </script>
 
 <style lang="scss"></style>

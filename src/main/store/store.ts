@@ -9,7 +9,6 @@ export const setTab = (tab: string) => {
 
 export const setAnonymous = (isAnonymous: boolean) => {
   store.set('isAnonymous', isAnonymous)
-  console.log('set-Anonymous-final')
 }
 
 export const getElectronStore = () => {
