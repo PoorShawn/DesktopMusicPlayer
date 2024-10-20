@@ -1,7 +1,6 @@
 import { is } from '@electron-toolkit/utils'
 import { BrowserWindow, WebContentsView, Rectangle, shell } from 'electron'
 import { join } from 'path'
-import { v4 as generateKey } from 'uuid'
 
 export default class WindowManager {
   private static instance: WindowManager
@@ -18,17 +17,17 @@ export default class WindowManager {
     return WindowManager.instance
   }
 
-  getAllWindows(): (number | string)[] {
-    const windows: (number | string)[] = []
+  getAllWindows(): (BrowserWindow | WebContentsView)[] {
+    const windows: (BrowserWindow | WebContentsView)[] = []
 
-    // 如果存在主窗口，则添加其ID
+    // 如果存在主窗口，则添加其到数组
     if (this.mainWindow) {
-      windows.push(this.mainWindow.id)
+      windows.push(this.mainWindow)
     }
 
-    // 添加所有子窗口的ID
-    this.childWindows.forEach((_, winId) => {
-      windows.push(winId)
+    // 添加所有子窗口到数组
+    this.childWindows.forEach((view) => {
+      windows.push(view)
     })
 
     return windows
@@ -83,20 +82,26 @@ export default class WindowManager {
     }
   }
 
+  findWebContentViewById(id: string): WebContentsView | null {
+    return this.childWindows.get(id) || null
+  }
+
   iterateWebContentView(callback: (view?: WebContentsView, winId?: string) => void): void {
     this.childWindows.forEach((view, winId) => callback(view, winId))
   }
 
-  createWebContentView(url: string, bounds: Rectangle): string {
+  createWebContentView(url: string, tabId: string, bounds: Rectangle): string {
     const view = new WebContentsView({
       webPreferences: {
-        preload: join(__dirname, '../preload/index.js')
+        preload: join(__dirname, '../preload/index.js'),
+        sandbox: false,
+        contextIsolation: true
       }
     })
     view.setBounds(bounds)
     view.webContents.loadURL(url)
 
-    const winId = generateKey()
+    const winId = tabId
     this.mainWindow?.contentView.addChildView(view)
     this.childWindows.set(winId, view)
 

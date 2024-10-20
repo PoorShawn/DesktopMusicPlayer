@@ -1,5 +1,7 @@
 {
-  "files": [],
+  "files": [
+    "node_modules/vitest/globals.d.ts"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"
@@ -10,6 +12,7 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "types": ["vitest/globals"],
     "paths": {
       "@renderer/*": [
         "src/renderer/src/*"

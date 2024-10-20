@@ -1,6 +1,6 @@
 <template>
   <BaseProfileLoginForm v-if="isLogin" />
-  <BaseProfilePasswrodForm v-else-if="isPasswordReset" />
+  <BaseProfilePasswordForm v-else-if="isPasswordReset" />
   <BaseProfileCreateForm v-else-if="isSignUp" />
 
   <!-- test -->
@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import BaseProfileLoginForm from '@renderer/components/forms/BaseProfileLoginForm.vue'
-import BaseProfilePasswrodForm from '@renderer/components/forms/BaseProfilePasswrodForm.vue'
+import BaseProfilePasswordForm from '@renderer/components/forms/BaseProfilePasswrodForm.vue'
 import BaseProfileCreateForm from '@renderer/components/forms/BaseProfileCreateForm.vue'
 
 const activeForm = ref('login')

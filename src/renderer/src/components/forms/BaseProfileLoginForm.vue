@@ -5,13 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import useProfileStore from '@renderer/store/profile'
-import { setAnonymous } from '@renderer/composables/useStore'
+//import useProfileStore from '@renderer/store/profile'
+import { updateGlobalStore } from '@renderer/composables/useStore'
 
-const profileStore = useProfileStore()
+//const profileStore = useProfileStore()
 const handleClick = () => {
-  setAnonymous(true)
-  profileStore.setIsAnonymous(true)
+  updateGlobalStore({ profile_isAnonymous: true })
+  //profileStore.setIsAnonymous(true)
 }
 </script>
 

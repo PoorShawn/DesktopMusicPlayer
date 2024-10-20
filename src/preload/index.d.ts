@@ -10,11 +10,12 @@ interface APIs {
   hideTab: () => void;
   setAnonymous: () => void;
   getElectronStore: () => store;
+  getElectronStoreTabs: () => string[];
 }
 
 declare global {
   interface Window {
-    //electron: ElectronAPI
+    electron: ElectronAPI
     api: APIs
   }
 }
