@@ -1,4 +1,5 @@
 <template>
+  <!--  获取electron-store后，才开始渲染页面-->
   <PageLayout v-if="isStoredDataLoaded" />
 </template>
 
@@ -6,52 +7,52 @@
 import { onMounted, ref } from 'vue'
 import PageLayout from '@renderer/layouts/app/PageLayout.vue'
 import {
-  addViewsStoreObserver,
   getElectronStore,
-  updateGlobalStoreObserver
+  updateGlobalStoreObserver,
+  setViewsStoreObserver
 } from '@renderer/composables/useStore'
-import { addPiniaStore, updatePiniaStore } from '@renderer/store'
+import { updatePiniaStore } from '@renderer/store'
 
 const isStoredDataLoaded = ref(false)
 
-const setStoreData = (data) => {
-  //console.log('data: ', data)
-  const storeKeysValues = Object.entries(data)
-  //console.log('storeKeysValues: ', storeKeysValues)
+// 替换pinia中的数据存储
+const setStoreData = (data: object) => {
+  const storeKeysValues: [string, unknown][] = Object.entries(data)
   storeKeysValues.forEach(([key, value]) => {
-    //console.log('key: ', key)
-    //console.log('value: ', value)
     updatePiniaStore(key, value)
   })
 }
 
-const addStoreData = (data) => {
-  //console.log('data: ', data)
-  const storeKeysValues = Object.entries(data)
-  //console.log('storeKeysValues: ', storeKeysValues)
-  storeKeysValues.forEach(([key, value]) => {
-    //console.log('key: ', key)
-    //console.log('value: ', value)
-    addPiniaStore(key, value)
-  })
-}
+// // 新增pinia中的数据存储
+// const addStoreData = (data: object) => {
+//   const storeKeysValues: [string, unknown][] = Object.entries(data)
+//   storeKeysValues.forEach(([key, value]) => {
+//     addPiniaStore(key, value)
+//   })
+// }
 
 onMounted(() => {
-  updateGlobalStoreObserver((data) => {
-    //console.log('updateGlobalStoreObserver: ', data)
+  // 监听 'update-global-store-observer' 频道，更新pinia中的数据
+  updateGlobalStoreObserver((data: string) => {
+    const dataFormatted = JSON.parse(data)
+    console.log('updateGlobalStoreObserver: ', dataFormatted)
+    setStoreData(dataFormatted)
+  })
+
+  // 监听 'set-views-store-observer' 频道，更新pinia中的数据
+  setViewsStoreObserver((data: object) => {
     setStoreData(data)
   })
 
-  addViewsStoreObserver((data) => {
-    //console.log('addViewsStoreObserver', data)
-    //const data = JSON.parse(value)
-    addStoreData(data)
-  })
+  // // 监听 'add-views-store-observer' 频道，新增pinia中的数据
+  // addViewsStoreObserver((data: object) => {
+  //   // const data: object = JSON.parse(value)
+  //   addStoreData(data)
+  // })
 
-  getElectronStore((value) => {
-    //console.log('getElectronStore: ', value)
-    const data = JSON.parse(value)
-    //console.log('getElectronStore: ', data)
+  // 获取存储在electron-store中的数据
+  getElectronStore((value: string) => {
+    const data: object = JSON.parse(value)
     setStoreData(data)
 
     // 当数据加载完成，设置为true

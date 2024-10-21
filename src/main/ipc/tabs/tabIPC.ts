@@ -1,11 +1,12 @@
 import { ipcMain } from 'electron'
-import { addTab, closeAllTabs, closeTab, setActiveTab } from './tabHandler'
+import { addTab, closeAllTabs, closeTab, setActiveTab, showMainWindow } from './tabHandler'
 
 export default function () {
   ipcMain.on('add-tab', addTab)
   ipcMain.on('set-active-tab', setActiveTab)
   ipcMain.on('close-tab', closeTab)
   ipcMain.on('close-all-tabs', closeAllTabs)
+  ipcMain.on('show-main-window', showMainWindow)
 
   // ipcMain.on('add-tab', (_, path) => {
   //   console.log('path: ', path)

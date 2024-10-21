@@ -1,16 +1,16 @@
 import { app } from 'electron'
 import { join } from 'path'
-import { electronApp, optimizer } from '@electron-toolkit/utils'
+//import { electronApp, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import WindowManager from './windowManager'
 import setStoreIPC from './ipc/store/storeIPC'
 import setTabIPC from './ipc/tabs/tabIPC'
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.electron')
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
-  })
+  // electronApp.setAppUserModelId('com.electron')
+  // app.on('browser-window-created', (_, window) => {
+  //   optimizer.watchWindowShortcuts(window)
+  // })
 
   const windowManager = WindowManager.getInstance()
 
@@ -23,7 +23,8 @@ app.whenReady().then(() => {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
-      contextIsolation: true
+      contextIsolation: true,
+      nodeIntegration: false
     }
   })
 
@@ -46,6 +47,10 @@ app.whenReady().then(() => {
           contextIsolation: true
         }
       })
+  })
+
+  process.on('uncaughtException', (error) => {
+    console.log('Uncaught Exception in Main Process:', error)
   })
 })
 

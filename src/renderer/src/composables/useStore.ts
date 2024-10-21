@@ -1,6 +1,6 @@
 // import useProfileStore from '@renderer/store/profile'
 // import useLayoutStore from '@renderer/store/layout'
-import { getElectronStore } from '../../../main/ipc/store/storeHandler'
+//import { getElectronStore } from '../../../main/ipc/store/storeHandler'
 
 // 只处理 electronStore
 export const getElectronStore = async (callback) => {
@@ -15,31 +15,38 @@ export const getElectronStoreByKey = async (callback) => {
   })
 }
 
-export const setElectronStore = () => {
-  window.electron.ipcRenderer.send('set-electron-store')
+export const setElectronStore = (data) => {
+  window.electron.ipcRenderer.send('set-electron-store', data)
 }
 
-export const addElectronStore = () => {
-  window.electron.ipcRenderer.send('add-electron-store')
-}
+// export const addElectronStore = () => {
+//   window.electron.ipcRenderer.send('add-electron-store')
+// }
 
 // 只处理 Pinia Store
-export const updateViewsStore = () => {
-  window.electron.ipcRenderer.send('update-views-store')
+export const setViewsStore = () => {
+  window.electron.ipcRenderer.send('set-views-store')
 }
 
-export const addViewsStore = () => {
-  window.electron.ipcRenderer.send('add-views-store')
-}
-
-export const addViewsStoreObserver = (callback) => {
-  window.electron.ipcRenderer.on('add-views-store-observer', (_, data) => {
+export const setViewsStoreObserver = (callback) => {
+  window.electron.ipcRenderer.on('set-views-store-observer', (_, data: object) => {
     callback(data)
   })
 }
 
+// export const addViewsStore = (data) => {
+//   const dataFormatted = JSON.stringify(data)
+//   window.electron.ipcRenderer.send('add-views-store', dataFormatted)
+// }
+//
+// export const addViewsStoreObserver = (callback) => {
+//   window.electron.ipcRenderer.on('add-views-store-observer', (_, data: object) => {
+//     callback(data)
+//   })
+// }
+
 // 同时处理electronStore 和 Pinia Store
-export const updateGlobalStore = (data) => {
+export const updateGlobalStore = (data: object) => {
   const dataFormatted = JSON.stringify(data)
   //console.log('updateGlobalStore: ', data)
   //console.log('updateGlobalStore: ', dataFormatted)
@@ -47,45 +54,8 @@ export const updateGlobalStore = (data) => {
 }
 
 export const updateGlobalStoreObserver = (callback) => {
-  window.electron.ipcRenderer.on('update-global-store-observer', (_, data) => {
+  window.electron.ipcRenderer.on('update-global-store-observer', (_, data: object) => {
+    console.log('update-global-store-observer: ', data)
     callback(data)
   })
 }
-
-// // Ipc invoke
-// export const syncWithElectronStore = () => {
-//   window.store.getElectronStore().then((data: object) => {
-//     const profileStore = useProfileStore()
-//
-//     // anonymous set for pinia
-//     profileStore.setIsAnonymous(data['isAnonymous'])
-//   })
-//
-//   window.electron.ipcRenderer.invoke('update-pinia-store', getElectronStore())
-// }
-//
-// // Ipc on
-// export const updatePiniaStore = () => {
-//   window.store.updatePiniaStore((data) => {
-//     const profileStore = useProfileStore()
-//
-//     // anonymous for pinia
-//     profileStore.setIsAnonymous(data['isAnonymous'])
-//   })
-//
-//   // others
-// }
-//
-// export const setAnonymous = (isAnonymous: boolean) => {
-//   window.api.setAnonymous(isAnonymous)
-// }
-//
-// export const getElectronStoreTabs = async () => {
-//   const layoutStore = useLayoutStore()
-//   await window.api.getElectronStoreTabs().then((data: string[]) => {
-//     layoutStore.setTabs(data)
-//     console.log('pinia store tabs loaded:', layoutStore.tabs)
-//   })
-//
-//   return layoutStore.tabs
-// }

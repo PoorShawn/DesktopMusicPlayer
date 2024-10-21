@@ -6,12 +6,13 @@
 <script setup lang="ts">
 //import layout from '@renderer/store/layout'
 import { updateGlobalStore } from '@renderer/composables/useStore'
-import { closeAllTabs } from '@renderer/composables/useTabs'
+import { showMainWindow } from '@renderer/composables/useTabs'
 
 const toLogin = () => {
   //console.log('To Login: ', layoutStore.currentTab)
   updateGlobalStore({ profile_isAnonymous: false })
-  closeAllTabs()
+  //closeAllTabs()
+  showMainWindow()
 }
 
 // import { hideTab } from '@renderer/composables/useTabs'

@@ -68,6 +68,10 @@ export default class WindowManager {
     this.mainWindow?.webContents.send(channel, value)
   }
 
+  ipcMainWindow(channel: string, value) {
+    this.mainWindow?.webContents.send(channel, value)
+  }
+
   showMainWindow(): void {
     this.mainWindow?.show()
   }
@@ -86,11 +90,11 @@ export default class WindowManager {
     return this.childWindows.get(id) || null
   }
 
-  iterateWebContentView(callback: (view?: WebContentsView, winId?: string) => void): void {
+  iterateWebContentView(callback: (view: WebContentsView, winId?: string) => void): void {
     this.childWindows.forEach((view, winId) => callback(view, winId))
   }
 
-  createWebContentView(url: string, tabId: string, bounds: Rectangle): string {
+  createWebContentView(url: string, tabId: string, bounds: Rectangle): WebContentsView {
     const view = new WebContentsView({
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
@@ -121,7 +125,7 @@ export default class WindowManager {
       }
     })
 
-    return winId
+    return view
   }
 
   showWebContentView(winId: string): void {
@@ -154,11 +158,17 @@ export default class WindowManager {
     }
   }
 
-  hideAllWebContentView() {
-    this.iterateWebContentView((_, winId) => {
-      if (winId) {
-        this.hideWebContentView(winId)
-      }
+  closeAllWebContentView() {
+    // 遍历 childWindows 映射
+    this.childWindows.forEach((view, winId) => {
+      // 关闭 WebContentsView
+      view.webContents.close()
+
+      // 从映射中删除该视图
+      this.childWindows.delete(winId)
     })
+
+    // 清空映射，确保所有子窗口都被移除
+    this.childWindows.clear()
   }
 }
