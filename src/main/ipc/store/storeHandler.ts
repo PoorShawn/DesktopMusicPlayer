@@ -33,7 +33,8 @@ export function setViewsStore(_, data) {
   //const dataFormatted = JSON.parse(data)
 
   windowManager.getAllWindows().forEach((view) => {
-    view.webContents.send('set-views-store-observer', data)
+    console.log('window: ', view)
+    view.webContents.send('set-views-store-observer', { layout_activeTabId: data })
   })
 }
 

@@ -35,12 +35,13 @@ onMounted(() => {
   // 监听 'update-global-store-observer' 频道，更新pinia中的数据
   updateGlobalStoreObserver((data: string) => {
     const dataFormatted = JSON.parse(data)
-    console.log('updateGlobalStoreObserver: ', dataFormatted)
+    //console.log('updateGlobalStoreObserver: ', dataFormatted)
     setStoreData(dataFormatted)
   })
 
   // 监听 'set-views-store-observer' 频道，更新pinia中的数据
   setViewsStoreObserver((data: object) => {
+    //console.log('setViewsStoreObserver: ', data)
     setStoreData(data)
   })
 

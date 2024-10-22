@@ -30,6 +30,7 @@ export const setViewsStore = () => {
 
 export const setViewsStoreObserver = (callback) => {
   window.electron.ipcRenderer.on('set-views-store-observer', (_, data: object) => {
+    // console.log('set-views-store-observer', data)
     callback(data)
   })
 }
@@ -55,7 +56,7 @@ export const updateGlobalStore = (data: object) => {
 
 export const updateGlobalStoreObserver = (callback) => {
   window.electron.ipcRenderer.on('update-global-store-observer', (_, data: object) => {
-    console.log('update-global-store-observer: ', data)
+    // console.log('update-global-store-observer: ', data)
     callback(data)
   })
 }

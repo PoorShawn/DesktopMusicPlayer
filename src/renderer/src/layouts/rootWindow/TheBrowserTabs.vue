@@ -37,16 +37,19 @@ watch(
 
 onMounted(() => {
   // 监听 'add-tab-observer' 频道，更新pinia中的tabs数据
-  addTabObserver((data: { uuid: string; path: string }) => {
+  addTabObserver((data: string) => {
+    const dataFormatted: { uuid: string; path: string } = JSON.parse(data)
     //console.log('addTabObserver: ', data)
     //console.log('layoutStore.tabs::: ', layoutStore.tabs)
     if (layoutStore.tabs === null) {
       // const tabs = [...layoutStore.tabs, data]
-      layoutStore.setTabs([data])
+      //console.log('null: ', [dataFormatted])
+      layoutStore.setTabs([dataFormatted])
     } else {
-      const isTabPresent = layoutStore.tabs.find((tab) => tab.uuid === data.uuid)
+      const isTabPresent = layoutStore.tabs.find((tab) => tab.uuid === dataFormatted.uuid)
       if (!isTabPresent) {
-        const tabs = [...layoutStore.tabs, data]
+        const tabs = [...layoutStore.tabs, dataFormatted]
+        //console.log('add not present: ', tabs)
         layoutStore.setTabs(tabs)
       }
     }
