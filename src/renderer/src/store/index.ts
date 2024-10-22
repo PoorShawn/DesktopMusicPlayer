@@ -15,6 +15,8 @@ export function updatePiniaStore(nameWithKey, value) {
     const actionName = camelCase(`set-${formattedKey}`)
     const action = store()[actionName]
     if (typeof action === 'function') {
+      //console.log('action pinia: ', actionName)
+      //console.log('action value: ', value)
       action(value)
     }
   }

@@ -41,6 +41,7 @@ onMounted(() => {
 
   // 监听 'set-views-store-observer' 频道，更新pinia中的数据
   setViewsStoreObserver((data: object) => {
+    // const dataFormatted: object = JSON.parse(data)
     //console.log('setViewsStoreObserver: ', data)
     setStoreData(data)
   })

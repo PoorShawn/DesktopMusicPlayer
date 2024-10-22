@@ -24,12 +24,13 @@ export const setElectronStore = (data) => {
 // }
 
 // 只处理 Pinia Store
-export const setViewsStore = () => {
-  window.electron.ipcRenderer.send('set-views-store')
+export const setViewsStore = (data: object) => {
+  // const dataFormatted = JSON.stringify(data)
+  window.electron.ipcRenderer.send('set-views-store', data)
 }
 
 export const setViewsStoreObserver = (callback) => {
-  window.electron.ipcRenderer.on('set-views-store-observer', (_, data: object) => {
+  window.electron.ipcRenderer.on('set-views-store-observer', (_, data: string) => {
     // console.log('set-views-store-observer', data)
     callback(data)
   })

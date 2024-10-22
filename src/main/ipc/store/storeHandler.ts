@@ -29,12 +29,12 @@ export function setElectronStore(_, data: string) {
 // 只处理 Pinia Store
 
 // 替换每一个窗口的pinia-store
-export function setViewsStore(_, data) {
-  //const dataFormatted = JSON.parse(data)
+export function setViewsStore(_, data: object) {
+  // const dataFormatted = JSON.parse(data)
 
   windowManager.getAllWindows().forEach((view) => {
-    console.log('window: ', view)
-    view.webContents.send('set-views-store-observer', { layout_activeTabId: data })
+    // console.log('window: ', view)
+    view.webContents.send('set-views-store-observer', data)
   })
 }
 

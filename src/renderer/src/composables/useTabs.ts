@@ -1,6 +1,6 @@
 //import { showMainWindow } from "src/main/ipc/tabs/tabHandler"
 
-export const addTab = (data) => {
+export const addTab = (data: object) => {
   const dataFormatted = JSON.stringify(data)
   window.electron.ipcRenderer.send('add-tab', dataFormatted)
 }
@@ -15,8 +15,14 @@ export const setActiveTab = (tabId: string) => {
   window.electron.ipcRenderer.send('set-active-tab', tabId)
 }
 
-export const closeTab = (data) => {
-  window.electron.ipcRenderer.send('close-tab', data)
+export const closeTab = (tabId: string) => {
+  window.electron.ipcRenderer.send('close-tab', tabId)
+}
+
+export const closeTabObserver = (callback) => {
+  window.electron.ipcRenderer.on('close-tab-observer', (_, tabId: string) => {
+    callback(tabId)
+  })
 }
 
 export const closeAllTabs = () => {

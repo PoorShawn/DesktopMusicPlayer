@@ -26,7 +26,8 @@ export function addTab(_, data: string) {
   view.webContents.on('did-finish-load', () => {
     const data = { layout_currentTabId: tabData.uuid }
     // console.log('View addTabObserver: ', data)
-    view.webContents.send('set-views-store-observer', data)
+    const dataFormatted = JSON.stringify(data)
+    view.webContents.send('set-views-store-observer', dataFormatted)
   })
 
   //addViewsStore(_, JSON.stringify({ layout_tabs: tab.uuid }))
@@ -35,12 +36,10 @@ export function addTab(_, data: string) {
 
 export function setActiveTab(_, tabId: string) {
   const tab = windowManager.findWebContentViewById(tabId)
-  // console.log('tab: ', tab)
   if (tab) {
-    // console.log('tabfound: ', tab)
     windowManager.showWebContentView(tabId)
-    setViewsStore(_, { layout_activeTab: tabId })
-    //updateViewsStore(_, JSON.stringify({ activeTab: tabId }))
+    // const tabData = JSON.stringify({ layout_activeTabId: tabId })
+    setViewsStore(_, { layout_activeTabId: tabId })
   }
 }
 
@@ -48,6 +47,7 @@ export function closeTab(_, tabId: string) {
   const tab = windowManager.findWebContentViewById(tabId)
   if (tab) {
     windowManager.closeWebContentView(tabId)
+    windowManager.ipcMainWindow('close-tab-observer', tabId)
   }
 }
 
