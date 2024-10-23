@@ -2,9 +2,9 @@ import { defineStore } from 'pinia'
 
 // 定义 state 的类型
 interface LayoutState {
-  tabs: Array<{ uuid: string; path: string }> | null
-  currentTabId: string | null
-  activeTabId: string | null
+  tabs: { uuid: string, path: string }[]
+  currentTabId: string
+  activeTabId: string
 }
 
 const data = {

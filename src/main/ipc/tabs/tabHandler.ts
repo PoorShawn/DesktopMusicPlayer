@@ -35,20 +35,20 @@ export function addTab(_, data: string) {
 }
 
 export function setActiveTab(_, tabId: string) {
-  const tab = windowManager.findWebContentViewById(tabId)
-  if (tab) {
-    windowManager.showWebContentView(tabId)
-    // const tabData = JSON.stringify({ layout_activeTabId: tabId })
-    setViewsStore(_, { layout_activeTabId: tabId })
-  }
+  // const tab = windowManager.findWebContentViewById(tabId)
+  // if (tab) {
+  windowManager.showWebContentView(tabId)
+  const data = { layout_activeTabId: tabId }
+  const dataFormatted = JSON.stringify(data)
+  setViewsStore(_, dataFormatted)
+  // }
 }
 
 export function closeTab(_, tabId: string) {
-  const tab = windowManager.findWebContentViewById(tabId)
-  if (tab) {
-    windowManager.closeWebContentView(tabId)
-    windowManager.ipcMainWindow('close-tab-observer', tabId)
-  }
+
+
+  windowManager.closeWebContentView(tabId)
+  windowManager.ipcMainWindow('close-tab-observer', tabId)
 }
 
 export function closeAllTabs() {

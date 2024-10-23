@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :class="{ active: isActive}">
+  <div class="container" :class="{ active: isActive }">
     <button :class="{ active: isActive }" @click="activateTab">
       <slot></slot>
     </button>
@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import CrossIcon from '@renderer/components/icons/CrossIcon.vue'
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import layout from '@renderer/store/layout'
 import { closeTab, setActiveTab } from '@renderer/composables/useTabs'
 
@@ -17,14 +17,6 @@ import { closeTab, setActiveTab } from '@renderer/composables/useTabs'
 const props = defineProps(['tabId'])
 const layoutStore = layout()
 
-watch(
-  () => layoutStore.activeTabId,
-  () => {
-    //console.log('layoutStore.activeTabId: ', layoutStore.activeTabId)
-    //console.log('layoutStore.currentTabId: ', layoutStore.currentTabId)
-    //console.log('isActive: ', isActive.value)
-  }
-)
 const isActive = computed(() => {
   return layoutStore.activeTabId === props.tabId
 })
@@ -38,7 +30,6 @@ const deleteTab = () => {
   console.log('deleteTab_clicked')
   closeTab(props.tabId)
 }
-
 </script>
 
 <style scoped lang="scss">

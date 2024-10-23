@@ -130,17 +130,15 @@ export default class WindowManager {
 
   showWebContentView(winId: string): void {
     const view = this.childWindows.get(winId)
-    if (view) {
-      // Hide all WebContentViews
-      this.iterateWebContentView((_, winId) => {
-        if (winId) {
-          this.hideWebContentView(winId)
-        }
-      })
+    // if (view) {
+    //   // Hide all WebContentViews
+    //   this.iterateWebContentView((_, winId) => {
+    //     if (winId) {
+    //       this.hideWebContentView(winId)
+    //     }
+    //   })
 
-      // Show the specific WebContentView
-      view.setVisible(true)
-    }
+    view?.setVisible(true)
   }
 
   hideWebContentView(winId: string): void {
@@ -153,7 +151,15 @@ export default class WindowManager {
   closeWebContentView(winId: string): void {
     const view = this.childWindows.get(winId)
     if (view) {
+      // 如果这个视图是主窗口 contentView 的子视图，需要从主窗口中移除它
+      if (this.mainWindow && this.mainWindow.contentView) {
+        this.mainWindow.contentView.removeChildView(view)
+      }
+
+      // 关闭 WebContentsView 的 webContents
       view.webContents.close()
+
+      // 从映射中删除该视图
       this.childWindows.delete(winId)
     }
   }

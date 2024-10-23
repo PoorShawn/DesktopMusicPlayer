@@ -14,53 +14,56 @@
 import MenuButton from '@renderer/components/buttons/MenuButton.vue'
 import AddIcon from '@renderer/components/icons/AddIcon.vue'
 import layout from '@renderer/store/layout'
-import { addTab, addTabObserver, setActiveTab } from '@renderer/composables/useTabs'
+import { addTab, addTabObserver, closeTabObserver, setActiveTab } from '@renderer/composables/useTabs'
 import { generateKey } from '@renderer/utils/utils'
 import { computed, onMounted, watch } from 'vue'
-// import { setViewsStore } from '@renderer/composables/useStore'
 
 const layoutStore = layout()
 const tabs = computed(() => layoutStore.tabs)
+const activeTab = computed(() => layoutStore.activeTabId)
+const tabsCount = computed(() => {
+  return layoutStore.tabs ? layoutStore.tabs.length : 0;
+})
 
-// 初始或者tabs为空时，新建tab
+function addNewTab() {
+  const tabData = { uuid: generateKey(), path: 'home' }
+  addTab(tabData)
+  setActiveTab(tabData.uuid)
+}
+
 watch(
-  () => layoutStore.tabs,
-  (newTabs) => {
-    if (!newTabs || newTabs.length === 0) {
-      const tabData = { uuid: generateKey(), path: 'home' }
-      addTab(tabData)
-      setActiveTab(tabData.uuid)
+  tabsCount,(value) => {
+    if (!value) {
+      addNewTab()
     }
-  },
-  { immediate: true }
+  }
 )
 
+
 onMounted(() => {
+  // const tabs = layoutStore.tabs
+  // const activeTab = layoutStore.activeTabId
+
   // 监听 'add-tab-observer' 频道，更新pinia中的tabs数据
-  addTabObserver((data: string) => {
-    const dataFormatted: { uuid: string; path: string } = JSON.parse(data)
-    if (layoutStore.tabs === null) {
-      layoutStore.setTabs([dataFormatted])
-    } else {
-      const isTabPresent = layoutStore.tabs.find((tab) => tab.uuid === dataFormatted.uuid)
-      if (!isTabPresent) {
-        const tabs = [...layoutStore.tabs, dataFormatted]
-        layoutStore.setTabs(tabs)
-      }
+  addTabObserver()
+
+  // 监听 'close-tab-observer' 频道，更新pinia中的tabs数据
+  closeTabObserver().then((tabId) => {
+    if (tabId === activeTab.value) {
+      const tabIndex = tabs.value.findIndex(tab => tab.uuid === tab.uuid)
+      const newTabIndex = tabIndex ? (tabIndex -1) : 1
+      setActiveTab(tabs[newTabIndex])
     }
   })
 
-  // // xueyao
-  // closeTabObserver((tabId: string) => {
-  //   const newTabs = layoutStore.tabs.filter((tab) => tab.uuid !== tabId)
-  //   setViewsStore({'layout_tabs': newTabs})
-  // })
-
-  if (layoutStore.tabs && layoutStore.tabs.length !== 0) {
-    //console.log('newTab_onMounted')
-    for (const tab of layoutStore.tabs) {
-      addTab(tab)
-      // setActiveTab(tab.uuid)
+  // 如果tabs列表为空，则新增tab并渲染
+  if (tabsCount.value === 0) {
+    addNewTab()
+  } else {
+    // 如果tabs列表不为空，则按照tabs列表新增tab并渲染
+    tabs.value.forEach(tab => addTab(tab))
+    if (activeTab.value) {
+      setActiveTab(activeTab.value)
     }
   }
 })
@@ -72,16 +75,6 @@ const getPinia = () => {
   console.log('layoutStore.activeTabId: ', layoutStore.activeTabId)
 }
 
-// //当应用启动时，创建一个path为home的子窗口
-// const tabs: string[] = layoutStore.tabs
-//
-// if (!tabs || tabs.length === 0) {
-//   const tabData = { uuid: generateKey(), path: 'home' }
-//   addTab(tabData)
-//   layoutStore.setCurrentTab(tabData)
-//   console.log('piniaStore currentTab: ', layoutStore.currentTab)
-//   //console.log('piniaStore tabs: ', layoutStore.tabs)
-// }
 </script>
 
 <style lang="scss" scoped>

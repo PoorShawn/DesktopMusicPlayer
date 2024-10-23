@@ -1,11 +1,17 @@
-// import useProfileStore from '@renderer/store/profile'
-// import useLayoutStore from '@renderer/store/layout'
-//import { getElectronStore } from '../../../main/ipc/store/storeHandler'
+import { updatePiniaStore } from '@renderer/store'
 
-// 只处理 electronStore
-export const getElectronStore = async (callback) => {
+// 更新pinia中的数据
+const setStoreData = (data: object) => {
+  const storeKeysValues: [string, unknown][] = Object.entries(data)
+  storeKeysValues.forEach(([key, value]) => {
+    updatePiniaStore(key, value)
+  })
+}
+
+export const getElectronStore = async () => {
   await window.electron.ipcRenderer.invoke('get-electron-store').then((data) => {
-    callback(data)
+    const dataFormatted = JSON.parse(data)
+    setStoreData(dataFormatted)
   })
 }
 
@@ -19,45 +25,26 @@ export const setElectronStore = (data) => {
   window.electron.ipcRenderer.send('set-electron-store', data)
 }
 
-// export const addElectronStore = () => {
-//   window.electron.ipcRenderer.send('add-electron-store')
-// }
-
-// 只处理 Pinia Store
 export const setViewsStore = (data: object) => {
   // const dataFormatted = JSON.stringify(data)
   window.electron.ipcRenderer.send('set-views-store', data)
 }
 
-export const setViewsStoreObserver = (callback) => {
+export const setViewsStoreObserver = () => {
   window.electron.ipcRenderer.on('set-views-store-observer', (_, data: string) => {
-    // console.log('set-views-store-observer', data)
-    callback(data)
+    const dataFormatted: object = JSON.parse(data)
+    setStoreData(dataFormatted)
   })
 }
 
-// export const addViewsStore = (data) => {
-//   const dataFormatted = JSON.stringify(data)
-//   window.electron.ipcRenderer.send('add-views-store', dataFormatted)
-// }
-//
-// export const addViewsStoreObserver = (callback) => {
-//   window.electron.ipcRenderer.on('add-views-store-observer', (_, data: object) => {
-//     callback(data)
-//   })
-// }
-
-// 同时处理electronStore 和 Pinia Store
 export const updateGlobalStore = (data: object) => {
   const dataFormatted = JSON.stringify(data)
-  //console.log('updateGlobalStore: ', data)
-  //console.log('updateGlobalStore: ', dataFormatted)
   window.electron.ipcRenderer.send('update-global-store', dataFormatted)
 }
 
-export const updateGlobalStoreObserver = (callback) => {
-  window.electron.ipcRenderer.on('update-global-store-observer', (_, data: object) => {
-    // console.log('update-global-store-observer: ', data)
-    callback(data)
+export const updateGlobalStoreObserver = () => {
+  window.electron.ipcRenderer.on('update-global-store-observer', (_, data: string) => {
+    const dataFormatted = JSON.parse(data)
+    setStoreData(dataFormatted)
   })
 }
