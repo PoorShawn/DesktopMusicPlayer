@@ -14,7 +14,7 @@ import layout from '@renderer/store/layout'
 import { closeTab, setActiveTab } from '@renderer/composables/useTabs'
 
 // const emit = defineEmits(['click'])
-const props = defineProps(['tabId'])
+const props = defineProps<{ tabId: string }>()
 const layoutStore = layout()
 
 const isActive = computed(() => {

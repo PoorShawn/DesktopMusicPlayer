@@ -45,8 +45,6 @@ export function setActiveTab(_, tabId: string) {
 }
 
 export function closeTab(_, tabId: string) {
-
-
   windowManager.closeWebContentView(tabId)
   windowManager.ipcMainWindow('close-tab-observer', tabId)
 }

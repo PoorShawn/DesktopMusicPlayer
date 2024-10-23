@@ -33,14 +33,19 @@ export const closeTab = (tabId: string) => {
 }
 
 // 监听 'close-tab-observer' 频道，更新pinia中的tabs数据
-export const closeTabObserver = async () => {
-  let tab: string
-  await window.electron.ipcRenderer.on('close-tab-observer', (_, tabId: string) => {
+export const closeTabObserver = () => {
+  window.electron.ipcRenderer.on('close-tab-observer', (_, tabId: string) => {
+    // 如果被删除的tab是被已激活的tab，那么自动激活下一个tab
+    if (layoutStore.activeTabId === tabId && layoutStore.tabs.length > 1) {
+      const tabIndex = layoutStore.tabs.findIndex((tab) => tab.uuid === tabId)
+      const newTabIndex = tabIndex ? tabIndex - 1 : 1
+      setActiveTab(layoutStore.tabs[newTabIndex].uuid)
+    }
+
+    // 更新pinia中的数据
     const newTabs = layoutStore.tabs.filter((tab) => tab.uuid !== tabId)
     layoutStore.setTabs(newTabs)
-    tab = tabId
   })
-  return tab
 }
 
 export const closeAllTabs = () => {
