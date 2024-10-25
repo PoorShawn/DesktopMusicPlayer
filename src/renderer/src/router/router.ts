@@ -10,6 +10,11 @@ const routes = [
     path: '/home',
     name: 'HomePage',
     component: () => import('@renderer/pages/homePage/HomePage.vue')
+  },
+  {
+    path: '/top',
+    name: 'Top Music',
+    component: () => import('@renderer/pages/topPage/TopPage.vue')
   }
 ]
 

@@ -1,7 +1,7 @@
 <template>
   <div class="menu">
     <MenuButton v-for="tab in tabs" :key="tab.uuid" :tab-id="tab.uuid">
-      {{ tab.path }}
+      {{ tabPath.find((tabData) => tabData.path === tab.path)?.name }}
     </MenuButton>
     <AddIcon></AddIcon>
     <!--    test-->
@@ -13,6 +13,7 @@
 // 让每一个tab对应和管理一个页面
 import MenuButton from '@renderer/components/buttons/MenuButton.vue'
 import AddIcon from '@renderer/components/icons/AddIcon.vue'
+import { tabPath } from '@renderer/utils/tabPath'
 import layout from '@renderer/store/layout'
 import {
   addTab,

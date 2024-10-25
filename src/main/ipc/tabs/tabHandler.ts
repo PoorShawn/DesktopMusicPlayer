@@ -12,7 +12,7 @@ export function addTab(_, data: string) {
     tabData.uuid,
     {
       x: 0,
-      y: 100,
+      y: 61,
       width: 900,
       height: 570
     }
