@@ -1,23 +1,18 @@
 <template>
-  <div class="item" :class="{ active: isActive }" @click="handleClick">
-    <div class="icon">
+  <div class="item" @click="handleClick">
+    <div class="icon" :class="{ active: props.isActive }">
       <component :is="props.icon" :style="itemStyle"></component>
     </div>
-    <div class="text">{{ props.text }}</div>
+    <div class="text" :class="{ active: props.isActive }">{{ props.text }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-// import { HomeFilled, Plus } from '@element-plus/icons-vue'
-
-import { ref } from 'vue'
-
-const props = defineProps<{ icon: string; text: string }>()
+const props = defineProps<{ icon: string; text: string; isActive: boolean }>()
 const emit = defineEmits(['click'])
 
 const itemStyle = 'width: 20px; height: 20px; margin-right: 8px'
 
-const isActive = ref(false)
 const handleClick = () => {
   emit('click', props.text)
 }
@@ -44,8 +39,13 @@ const handleClick = () => {
   cursor: pointer;
 }
 
+.item:hover {
+  background-color: #d1cdcd;
+}
+
 .item.active {
   background-color: #2861c2;
+  color: white;
 }
 
 .icon {
