@@ -1,12 +1,16 @@
 <template>
   <div class="panel">
-    <NavbarHistoryButton direction="left" />
-    <NavbarSearchButton />
-    <NavbarNavigationButton />
+    <div class="left-part">
+      <NavbarHistoryButton direction="left" />
+      <NavbarSearchButton />
+      <NavbarNavigationButton />
+    </div>
 
-    <NavbarHistoryButton direction="right" />
-    <NavbarRefreshButton />
-    <NavbarQueueButton />
+    <div class="right-part">
+      <NavbarHistoryButton direction="right" />
+      <NavbarRefreshButton />
+      <NavbarQueueButton />
+    </div>
   </div>
 </template>
 
@@ -21,7 +25,7 @@ import NavbarQueueButton from '@renderer/components/buttons/navbarButtons/Navbar
 <style scoped lang="scss">
 .panel {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid #ada9a9;
 
@@ -29,5 +33,12 @@ import NavbarQueueButton from '@renderer/components/buttons/navbarButtons/Navbar
   top: 0;
   left: 0;
   right: 0;
+}
+
+.left-part,
+.right-part {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
