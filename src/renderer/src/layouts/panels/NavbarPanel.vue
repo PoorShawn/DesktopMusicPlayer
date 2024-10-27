@@ -29,7 +29,7 @@ import NavbarQueueButton from '@renderer/components/buttons/navbarButtons/Navbar
   align-items: center;
   border-bottom: 1px solid #ada9a9;
 
-  position: relative;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
