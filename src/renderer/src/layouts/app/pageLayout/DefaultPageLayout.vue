@@ -13,8 +13,11 @@ import NavBarPanel from '@renderer/layouts/panels/NavbarPanel.vue'
 
 <style scoped lang="scss">
 .main-content {
+  //test
+  //border: 1px solid red;
+
   position: relative;
-  top: 100px;
-  left: 200px;
+  top: 49px;
+  left: 40px;
 }
 </style>

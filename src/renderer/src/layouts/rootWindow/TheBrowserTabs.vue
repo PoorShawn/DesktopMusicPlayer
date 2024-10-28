@@ -75,7 +75,7 @@ const getPinia = () => {
 
 <style lang="scss" scoped>
 .menu {
-  padding: 10px;
+  padding: 4px;
   display: flex;
   justify-content: flex-start;
   align-items: center;

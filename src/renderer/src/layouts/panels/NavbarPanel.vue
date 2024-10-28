@@ -25,13 +25,13 @@ import NavbarQueueButton from '@renderer/components/buttons/navbarButtons/Navbar
 <style scoped lang="scss">
 .panel {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ada9a9;
 
   position: fixed;
   top: 0;
-  left: 0;
+  left: 40px;
   right: 0;
 }
 
@@ -40,5 +40,7 @@ import NavbarQueueButton from '@renderer/components/buttons/navbarButtons/Navbar
   display: flex;
   justify-content: center;
   align-items: center;
+
+  margin: 8px 10px;
 }
 </style>

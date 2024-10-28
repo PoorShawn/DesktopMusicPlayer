@@ -61,7 +61,8 @@ const deleteTab = () => {
 
 button {
   background-color: #ffffff;
-  border: none;
+  border: transparent;
+  border-radius: 28px;
   color: rgb(125, 125, 129);
   cursor: pointer;
 }

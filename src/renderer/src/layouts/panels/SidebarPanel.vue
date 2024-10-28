@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="sidebar-panel">
     <BaseSidebarItem
       icon="HomeFilled"
       :text="home().name"
@@ -81,21 +81,21 @@ import {
 } from '@renderer/utils/tabPath'
 import { ref } from 'vue'
 
-const activeItem = ref('')
+const activeItem = ref(home().name)
 const handleClick = (itemText: string) => {
   activeItem.value = itemText
 }
 </script>
 
 <style scoped lang="scss">
-.container {
+.sidebar-panel {
   /* test */
   /* border: 1px solid red; */
 
   position: fixed;
   z-index: 1;
   background-color: #f6f4f4;
-  width: 200px;
+  width: 40px;
   height: 100vh;
   top: 0;
   left: 0;
@@ -108,5 +108,11 @@ const handleClick = (itemText: string) => {
   overflow-x: hidden;
   font-size: 12px;
   font-weight: 500;
+
+  transition: width 0.3s ease;
+}
+
+.sidebar-panel:hover {
+  width: 200px;
 }
 </style>

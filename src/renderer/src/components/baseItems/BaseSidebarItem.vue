@@ -45,7 +45,6 @@ const handleClick = () => {
 
 .item.active {
   background-color: #2861c2;
-  color: white;
 }
 
 .icon {
@@ -55,23 +54,25 @@ const handleClick = () => {
 }
 
 .icon.active {
-  color: white;
+  color: #f6f4f4;
 }
 
 .text {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 
+  height: 48px;
+  width: 150px;
   font-weight: 600;
   font-size: 16px;
   color: #524e4e;
 
   position: absolute;
-  left: 40px;
+  left: 50px;
 }
 
 .text.active {
-  color: white;
+  color: #f6f4f4;
 }
 </style>
