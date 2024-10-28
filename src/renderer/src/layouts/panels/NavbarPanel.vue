@@ -1,13 +1,13 @@
 <template>
   <div class="panel">
     <div class="left-part">
-      <NavbarHistoryButton direction="left" />
+      <NavbarHistoryButton direction="left" @click="handleLeftHistory" />
       <NavbarSearchButton />
       <NavbarNavigationButton />
     </div>
 
     <div class="right-part">
-      <NavbarHistoryButton direction="right" />
+      <NavbarHistoryButton direction="right" @click="handleRightHistory"/>
       <NavbarRefreshButton />
       <NavbarQueueButton />
     </div>
@@ -20,6 +20,15 @@ import NavbarHistoryButton from '@renderer/components/buttons/navbarButtons/Navb
 import NavbarNavigationButton from '@renderer/components/buttons/navbarButtons/NavbarNavigationButton.vue'
 import NavbarRefreshButton from '@renderer/components/buttons/navbarButtons/NavbarRefreshButton.vue'
 import NavbarQueueButton from '@renderer/components/buttons/navbarButtons/NavbarQueueButton.vue'
+import router from '@renderer/router/router'
+
+const handleLeftHistory = () => {
+  router.back()
+}
+
+const handleRightHistory = () => {
+  router.forward()
+}
 </script>
 
 <style scoped lang="scss">

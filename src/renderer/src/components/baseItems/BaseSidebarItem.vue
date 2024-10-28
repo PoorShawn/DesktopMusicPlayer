@@ -1,27 +1,31 @@
 <template>
-  <div class="item" @click="handleClick">
-    <div class="icon" :class="{ active: props.isActive }">
+  <div class="item" @click="handleClick" :class="{ active: isSelected }">
+    <div class="icon" :class="{ active: isSelected }">
       <component :is="props.icon" :style="itemStyle"></component>
     </div>
-    <div class="text" :class="{ active: props.isActive }">{{ props.link().name }}</div>
+    <div class="text" :class="{ active: isSelected }">{{ props.link().name }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import router from '@renderer/router/router'
+import { useRoute } from 'vue-router'
+import { computed, ref, watch } from 'vue'
+const route = useRoute()
+const currentRoutePath = computed(() => route.path)
+const isSelected = computed(() => currentRoutePath.value.slice(1) === props.link().path)
 
-const emit = defineEmits(['click'])
 const props = defineProps<{
   icon: string
-  isActive: boolean
   link: () => { path: string; name: string; params: NonNullable<unknown> }
 }>()
 
 const itemStyle = 'width: 20px; height: 20px; margin-right: 8px'
 
 const handleClick = () => {
-  emit('click', props.link().name)
-  router.push(props.link().path)
+  if (currentRoutePath.value.slice(1) !== props.link().path) {
+    router.push(props.link().path)
+  }
 }
 </script>
 
