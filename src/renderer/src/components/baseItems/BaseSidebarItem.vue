@@ -3,18 +3,25 @@
     <div class="icon" :class="{ active: props.isActive }">
       <component :is="props.icon" :style="itemStyle"></component>
     </div>
-    <div class="text" :class="{ active: props.isActive }">{{ props.text }}</div>
+    <div class="text" :class="{ active: props.isActive }">{{ props.link().name }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ icon: string; text: string; isActive: boolean }>()
+import router from '@renderer/router/router'
+
 const emit = defineEmits(['click'])
+const props = defineProps<{
+  icon: string
+  isActive: boolean
+  link: () => { path: string; name: string; params: NonNullable<unknown> }
+}>()
 
 const itemStyle = 'width: 20px; height: 20px; margin-right: 8px'
 
 const handleClick = () => {
-  emit('click', props.text)
+  emit('click', props.link().name)
+  router.push(props.link().path)
 }
 </script>
 
@@ -25,9 +32,6 @@ const handleClick = () => {
 //}
 
 .item {
-  /* test */
-  /* border: 1px solid green; */
-
   border: 24px solid transparent;
   width: 100%;
   position: relative;

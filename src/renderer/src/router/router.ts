@@ -13,8 +13,43 @@ const routes = [
   },
   {
     path: '/top',
-    name: 'Top Music',
+    name: 'TopMusic',
     component: () => import('@renderer/pages/topPage/TopPage.vue')
+  },
+  {
+    path: '/saved_tracks',
+    name: 'SavedTracks',
+    component: () => import('@renderer/pages/savedTacksPage/SavedTracksPage.vue')
+  },
+  {
+    path: '/radio',
+    name: 'Radio',
+    component: () => import('@renderer/pages/radioPage/RadioPage.vue')
+  },
+  {
+    path: '/playlists',
+    name: 'Playlists',
+    component: () => import('@renderer/pages/playlistsPage/PlaylistsPage.vue')
+  },
+  {
+    path: '/Communities',
+    name: 'Communities',
+    component: () => import('@renderer/pages/communitiesPage/CommunitiesPage.vue')
+  },
+  {
+    path: '/multitag',
+    name: 'Multitag',
+    component: () => import('@renderer/pages/tagSearchPage/TagSearchPage.vue')
+  },
+  {
+    path: '/releases',
+    name: 'Releases',
+    component: () => import('@renderer/pages/releasesPage/ReleasesPage.vue')
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: () => import('@renderer/pages/historyPage/HistoryPage.vue')
   }
 ]
 
